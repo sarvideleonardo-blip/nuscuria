@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LivingOrganism } from '../types';
 import { translateTextToOrganism } from '../utils/expandedTranslator';
 import OrganismRenderer from './OrganismRenderer';
@@ -19,9 +19,10 @@ import {
 interface TranslatorViewProps {
   onSaveToBestiary?: (organism: LivingOrganism) => void;
   savedIds?: string[];
+  sourceText?: string;
 }
 
-export default function TranslatorView({ onSaveToBestiary, savedIds = [] }: TranslatorViewProps) {
+export default function TranslatorView({ onSaveToBestiary, savedIds = [], sourceText }: TranslatorViewProps) {
   const [inputText, setInputText] = useState('Carbón que respira');
   const [currentOrganism, setCurrentOrganism] = useState<LivingOrganism>(() => 
     translateTextToOrganism('Carbón que respira')
@@ -45,6 +46,13 @@ export default function TranslatorView({ onSaveToBestiary, savedIds = [] }: Tran
     const org = translateTextToOrganism(text);
     setCurrentOrganism(org);
   };
+
+  useEffect(() => {
+    if (sourceText !== undefined) {
+      setInputText(sourceText);
+      setCurrentOrganism(translateTextToOrganism(sourceText));
+    }
+  }, [sourceText]);
 
   const handleFeedParadox = () => {
     // Induce a biological poetic mutation in the organism
