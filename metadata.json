@@ -1,0 +1,8 @@
+{
+  "name": "Remix NUSCURIA - Biblioteca de Traducción Expandida",
+  "description": "Una biblioteca viva donde textos, emociones, órganos, animales, sonidos y geometrías se cruzan en organismos poéticos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
