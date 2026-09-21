@@ -7,10 +7,11 @@ import RelationalForestView from './components/RelationalForestView';
 import OrgansCabinetView from './components/OrgansCabinetView';
 import HybridizerView from './components/HybridizerView';
 import { LivingOrganism } from './types';
-import { CANONICAL_ORGANISMS, translateTextToOrganism } from './utils/expandedTranslator';
+import { CANONICAL_ORGANISMS } from './utils/expandedTranslator';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('translator');
+  const [translatorText, setTranslatorText] = useState<string | undefined>();
   const [bestiaryList, setBestiaryList] = useState<LivingOrganism[]>(() => {
     // Try to load saved organisms from localStorage
     try {
@@ -40,13 +41,8 @@ export default function App() {
   };
 
   const handleNavigateToTranslatorWithText = (text: string) => {
+    setTranslatorText(text);
     setActiveTab('translator');
-    // Set a custom event or let state propagate
-    const inputField = document.getElementById('translator-input-field') as HTMLInputElement | null;
-    if (inputField) {
-      inputField.value = text;
-      inputField.dispatchEvent(new Event('input', { bubbles: true }));
-    }
   };
 
   const currentHz = bestiaryList[0]?.vector.sound.pitchHz || 108;
@@ -68,6 +64,7 @@ export default function App() {
           <TranslatorView
             onSaveToBestiary={handleSaveToBestiary}
             savedIds={savedIds}
+            sourceText={translatorText}
           />
         )}
 
